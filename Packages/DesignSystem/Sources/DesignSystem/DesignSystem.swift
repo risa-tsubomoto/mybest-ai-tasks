@@ -2,9 +2,9 @@ import SwiftUI
 
 public struct DesignSystem {
     public struct Colors {
-        public static let background = Color("Background") // Need to define in Assets or use fallback
-        public static let primary = Color.blue
-        public static let secondary = Color.purple
+        public static let background = Color("Background")
+        public static let primary = Color("AppPrimary")
+        public static let secondary = Color("AppSecondary")
         public static let text = Color.primary
         public static let cardBackground = Color.gray.opacity(0.1)
     }

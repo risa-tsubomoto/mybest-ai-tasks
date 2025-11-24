@@ -7,16 +7,16 @@ import os.log
 @DependencyClient
 public struct LoggerClient: Sendable {
     /// 情報レベルのログを出力 (OSLogType: .info)
-    var info: @Sendable (_ message: String) -> Void
+    public var info: @Sendable (_ message: String) -> Void
     
     /// エラーレベルのログを出力 (OSLogType: .error)
-    var error: @Sendable (_ message: String) -> Void
+    public var error: @Sendable (_ message: String) -> Void
     
     /// デバッグレベルのログを出力 (OSLogType: .debug)
-    var debug: @Sendable (_ message: String) -> Void
+    public var debug: @Sendable (_ message: String) -> Void
     
     /// 警告レベルのログを出力 (OSLogType: .default)
-    var warning: @Sendable (_ message: String) -> Void
+    public var warning: @Sendable (_ message: String) -> Void
 }
 
 extension LoggerClient: DependencyKey {

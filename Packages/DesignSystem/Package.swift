@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "DesignSystem",
     platforms: [
-        .iOS(.v16)
+        .iOS(.v17)
     ],
     products: [
         .library(
@@ -14,6 +14,9 @@ let package = Package(
     targets: [
         .target(
             name: "DesignSystem",
-            dependencies: []),
+            dependencies: [],
+            resources: [
+                .process("Resources")
+            ]),
     ]
 )

@@ -49,7 +49,7 @@ class GoalDetailViewModel: ObservableObject {
     func addToCalendar() {
         Task {
             do {
-                let _ = try await calendarService.scheduleTasks(goal.tasks, goal.startDate ?? Date())
+                let _ = try await calendarService.scheduleTasks(goal.tasks, goal.startDate ?? Date(), goal.deadline)
                 await MainActor.run {
                     self.calendarAlertMessage = "既存のイベントを削除してカレンダーに追加しました"
                     self.shouldShowSettingsButton = false

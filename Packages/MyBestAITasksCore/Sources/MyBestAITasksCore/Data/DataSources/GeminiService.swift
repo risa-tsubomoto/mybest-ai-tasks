@@ -14,6 +14,7 @@ public struct GeminiClient {
 
 extension GeminiClient: DependencyKey {
     public static let liveValue: GeminiClient = {
+        @Dependency(\.logger) var logger
         let apiKey = UserDefaults.standard.string(forKey: "geminiApiKey") ?? ""
         
         // 共通のAPIリクエストロジック
@@ -43,10 +44,30 @@ extension GeminiClient: DependencyKey {
                   let content = candidates.first?["content"] as? [String: Any],
                   let parts = content["parts"] as? [[String: Any]],
                   let text = parts.first?["text"] as? String else {
+                logger.error("Failed to parse Gemini response structure: \(String(data: data, encoding: .utf8) ?? "nil")")
                 throw NSError(domain: "GeminiClient", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse Gemini response"])
             }
             
-            return text.replacingOccurrences(of: "```json", with: "").replacingOccurrences(of: "```", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+            logger.debug("Raw Gemini response: \(text)")
+            
+            // Extract JSON part
+            let cleaned = text.replacingOccurrences(of: "```json", with: "").replacingOccurrences(of: "```", with: "")
+            
+            // Find first '{' or '['
+            if let firstOpenBrace = cleaned.firstIndex(of: "{"),
+               let lastCloseBrace = cleaned.lastIndex(of: "}") {
+                // Check if it's an object
+                let potentialJson = cleaned[firstOpenBrace...lastCloseBrace]
+                return String(potentialJson)
+            } else if let firstOpenBracket = cleaned.firstIndex(of: "["),
+                      let lastCloseBracket = cleaned.lastIndex(of: "]") {
+                // Check if it's an array
+                let potentialJson = cleaned[firstOpenBracket...lastCloseBracket]
+                return String(potentialJson)
+            }
+            
+            // Fallback to original cleaning if no brackets found (though likely to fail parsing if so)
+            return cleaned.trimmingCharacters(in: .whitespacesAndNewlines)
         }
         
         return GeminiClient(

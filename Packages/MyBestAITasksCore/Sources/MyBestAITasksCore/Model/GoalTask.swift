@@ -3,7 +3,7 @@ import SwiftData
 
 /// 目標に関連付けられた単一のタスク。
 @Model
-public final class GoalTask {
+public final class GoalTask: @unchecked Sendable {
     /// タスクの一意な識別子。
     public var id: UUID
     /// タスクのタイトルまたは説明。

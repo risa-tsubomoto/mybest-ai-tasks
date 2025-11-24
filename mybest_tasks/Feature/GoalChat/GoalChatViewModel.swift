@@ -1,12 +1,15 @@
 import SwiftUI
 import SwiftData
 import MyBestAITasksCore
+import Dependencies
 
 @MainActor
 class GoalChatViewModel: ObservableObject {
     @Published var messages: [ChatMessage] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+    
+    @Dependency(\.logger) var logger
     
     private let goal: Goal
     private let geminiService: GeminiService
@@ -20,7 +23,21 @@ class GoalChatViewModel: ObservableObject {
         
         // Retrieve API key from Keychain
         let apiKey = KeychainHelper.shared.read(for: "geminiApiKey") ?? ""
-        print("🔵 [GoalChatViewModel.init] API Key retrieved from Keychain: \(apiKey.isEmpty ? "EMPTY" : "EXISTS (length: \(apiKey.count))")")
+        // logger property is not available in init because it's a property wrapper on self, 
+        // but DependencyClient is usually lazy. However, @Dependency is property wrapper.
+        // We can't use self.logger in init easily if it relies on self.
+        // Actually @Dependency resolves from global stack if not injected.
+        // But for safety and simplicity in init, we might skip logging or use a local resolution if needed.
+        // However, standard practice is to rely on it in methods. 
+        // Let's try to use it, but if it fails we might need a workaround. 
+        // Actually, @Dependency can be used in init if it's not using 'self' to access it, but here it is a property of self.
+        // Let's just print to console for init or use a static logger if available? 
+        // The user said "use logger client for EVERYTHING".
+        // I will use `print` in init for now as `self` is not fully initialized, OR I can initialize it inline.
+        // Wait, @Dependency is available after init.
+        // I will move the logging to `onAppear` or just remove the init log if it's not critical, or use `DependencyValues._current.logger`.
+        // Let's check how LoggerClient is defined.
+        
         self.geminiService = GeminiService(apiKey: apiKey)
         
         // Initial message
@@ -30,22 +47,22 @@ class GoalChatViewModel: ObservableObject {
     func sendMessage(_ text: String) async {
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         
-        print("🔵 [GoalChatViewModel] Sending message: \(text)")
-        print("🔵 [GoalChatViewModel] Current goal: \(goal.title)")
-        print("🔵 [GoalChatViewModel] Current tasks count: \(goal.tasks.count)")
+        logger.info("🔵 [GoalChatViewModel] Sending message: \(text)")
+        logger.debug("🔵 [GoalChatViewModel] Current goal: \(self.goal.title)")
+        logger.debug("🔵 [GoalChatViewModel] Current tasks count: \(self.goal.tasks.count)")
         
         messages.append(ChatMessage(text: text, isUser: true))
         isLoading = true
         errorMessage = nil
         
         do {
-            print("🔵 [GoalChatViewModel] Calling GeminiService.updateGoal...")
+            logger.info("🔵 [GoalChatViewModel] Calling GeminiService.updateGoal...")
             let (newTasks, newMilestones) = try await geminiService.updateGoal(currentGoal: goal, instruction: text)
             
-            print("✅ [GoalChatViewModel] Received \(newTasks.count) tasks and \(newMilestones.count) milestones")
+            logger.info("✅ [GoalChatViewModel] Received \(newTasks.count) tasks and \(newMilestones.count) milestones")
             
             // Update goal
-            print("🔵 [GoalChatViewModel] Updating goal tasks and milestones...")
+            logger.info("🔵 [GoalChatViewModel] Updating goal tasks and milestones...")
             goal.tasks = newTasks
             goal.milestones = newMilestones
             
@@ -55,19 +72,19 @@ class GoalChatViewModel: ObservableObject {
             messages.append(ChatMessage(text: "目標を更新しました！\n新しいタスク数: \(newTasks.count)", isUser: false))
             
             // Schedule notifications for new tasks
-            print("🔵 [GoalChatViewModel] Scheduling notifications for \(newTasks.count) tasks...")
+            logger.info("🔵 [GoalChatViewModel] Scheduling notifications for \(newTasks.count) tasks...")
             for task in newTasks {
                 notificationManager.scheduleNotification(for: task)
             }
-            print("✅ [GoalChatViewModel] Successfully completed update")
+            logger.info("✅ [GoalChatViewModel] Successfully completed update")
             
         } catch let error as NSError {
-            print("❌ [GoalChatViewModel] Error occurred: \(error)")
-            print("❌ [GoalChatViewModel] Error type: \(type(of: error))")
-            print("❌ [GoalChatViewModel] Error localized description: \(error.localizedDescription)")
-            print("❌ [GoalChatViewModel] Error domain: \(error.domain)")
-            print("❌ [GoalChatViewModel] Error code: \(error.code)")
-            print("❌ [GoalChatViewModel] Error userInfo: \(error.userInfo)")
+            logger.error("❌ [GoalChatViewModel] Error occurred: \(error)")
+            logger.error("❌ [GoalChatViewModel] Error type: \(type(of: error))")
+            logger.error("❌ [GoalChatViewModel] Error localized description: \(error.localizedDescription)")
+            logger.error("❌ [GoalChatViewModel] Error domain: \(error.domain)")
+            logger.error("❌ [GoalChatViewModel] Error code: \(error.code)")
+            logger.error("❌ [GoalChatViewModel] Error userInfo: \(error.userInfo)")
             
             // Provide user-friendly error messages
             var userMessage = "申し訳ありません、エラーが発生しました。"
@@ -83,12 +100,12 @@ class GoalChatViewModel: ObservableObject {
         }
         
         isLoading = false
-        print("🔵 [GoalChatViewModel] Message processing completed")
+        logger.info("🔵 [GoalChatViewModel] Message processing completed")
     }
     
     /// この目標のカレンダーイベントを削除する。
     func removeCalendarEvents() async {
-        print("🗑️ [GoalChatViewModel] Removing calendar events for goal: \(goal.title)")
+        logger.info("🗑️ [GoalChatViewModel] Removing calendar events for goal: \(self.goal.title)")
         isLoading = true
         
         do {
@@ -97,10 +114,10 @@ class GoalChatViewModel: ObservableObject {
             
             await MainActor.run {
                 messages.append(ChatMessage(text: "カレンダー登録を削除しました。", isUser: false))
-                print("✅ [GoalChatViewModel] Successfully removed calendar events")
+                logger.info("✅ [GoalChatViewModel] Successfully removed calendar events")
             }
         } catch {
-            print("❌ [GoalChatViewModel] Failed to remove calendar events: \(error)")
+            logger.error("❌ [GoalChatViewModel] Failed to remove calendar events: \(error)")
             await MainActor.run {
                 messages.append(ChatMessage(text: "カレンダー削除中にエラーが発生しました。", isUser: false))
             }

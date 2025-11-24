@@ -36,6 +36,17 @@ struct TaskRowView: View {
                         }
                         .foregroundColor(DesignSystem.Colors.text.opacity(0.6))
                     }
+                    
+                    // 繰り返し設定（あれば）
+                    if let recurrence = task.recurrence, recurrence != .none {
+                        HStack(spacing: 4) {
+                            Image(systemName: "repeat")
+                                .font(.caption2)
+                            Text(recurrenceText(recurrence))
+                                .font(.caption)
+                        }
+                        .foregroundColor(DesignSystem.Colors.text.opacity(0.6))
+                    }
                 }
                 }
             }
@@ -54,6 +65,15 @@ struct TaskRowView: View {
                     lineWidth: 1
                 )
         )
+    }
+    
+    private func recurrenceText(_ recurrence: TaskRecurrence) -> String {
+        switch recurrence {
+        case .daily: return "毎日"
+        case .weekly: return "毎週"
+        case .weekdays: return "平日"
+        case .none: return ""
+        }
     }
 }
 
