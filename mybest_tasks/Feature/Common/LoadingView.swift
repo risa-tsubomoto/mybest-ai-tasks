@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 
 /// AI生成中のローディング画面。
 struct LoadingView: View {

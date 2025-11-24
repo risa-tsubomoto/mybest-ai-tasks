@@ -1,4 +1,6 @@
 import SwiftUI
+import MyBestAITasksCore
+import DesignSystem
 
 struct GoalDetailView: View {
     let goal: Goal

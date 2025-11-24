@@ -1,4 +1,6 @@
 import SwiftUI
+import MyBestAITasksCore
+import DesignSystem
 
 /// マイルストーンごとにタスクをグループ化して表示するコンポーネント。
 struct MilestoneSection: View {

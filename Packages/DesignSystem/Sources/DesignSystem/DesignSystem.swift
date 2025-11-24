@@ -22,14 +22,14 @@ public struct DesignSystem {
 }
 
 public extension View {
-    public func cardStyle() -> some View {
+    func cardStyle() -> some View {
         self
             .background(DesignSystem.Colors.cardBackground)
             .cornerRadius(DesignSystem.CornerRadius.card)
             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
     
-    public func premiumButtonStyle() -> some View {
+    func premiumButtonStyle() -> some View {
         self
             .padding()
             .background(LinearGradient(gradient: Gradient(colors: [DesignSystem.Colors.primary, DesignSystem.Colors.secondary]), startPoint: .leading, endPoint: .trailing))

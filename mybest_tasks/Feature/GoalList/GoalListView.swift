@@ -1,5 +1,7 @@
 import SwiftUI
 import SwiftData
+import MyBestAITasksCore
+import DesignSystem
 
 
 struct GoalListView: View {

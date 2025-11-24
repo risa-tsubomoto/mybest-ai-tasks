@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import MyBestAITasksCore
 
 /// 目標詳細画面の ViewModel。
 ///

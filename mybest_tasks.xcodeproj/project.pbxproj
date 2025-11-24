@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4260327A2ED311B400D227CC /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 426032792ED311B400D227CC /* Dependencies */; };
-		4260327C2ED311B400D227CC /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 4260327B2ED311B400D227CC /* DependenciesMacros */; };
+		4284E06A2ED4216B00873CD3 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 4284E0692ED4216B00873CD3 /* DesignSystem */; };
+		4284E06C2ED4216B00873CD3 /* MyBestAITasksCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4284E06B2ED4216B00873CD3 /* MyBestAITasksCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +32,8 @@
 		42792A372ED0A97700EFF900 /* mybest_tasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mybest_tasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42792A472ED0A97900EFF900 /* mybest_tasksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mybest_tasksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42792A512ED0A97900EFF900 /* mybest_tasksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mybest_tasksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		42FF539F2ED184E0001FC0E6 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DesignSystem; path = Packages/DesignSystem; sourceTree = "<group>"; };
+		4284E0662ED4206200873CD3 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DesignSystem; path = Packages/DesignSystem; sourceTree = "<group>"; };
+		4284E0672ED4206200873CD3 /* MyBestAITasksCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MyBestAITasksCore; path = Packages/MyBestAITasksCore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -58,8 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4260327C2ED311B400D227CC /* DependenciesMacros in Frameworks */,
-				4260327A2ED311B400D227CC /* Dependencies in Frameworks */,
+				4284E06C2ED4216B00873CD3 /* MyBestAITasksCore in Frameworks */,
+				4284E06A2ED4216B00873CD3 /* DesignSystem in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,8 +87,10 @@
 				42792A392ED0A97700EFF900 /* mybest_tasks */,
 				42792A4A2ED0A97900EFF900 /* mybest_tasksTests */,
 				42792A542ED0A97900EFF900 /* mybest_tasksUITests */,
-				42FF539E2ED184E0001FC0E6 /* Frameworks */,
 				42792A382ED0A97700EFF900 /* Products */,
+				4284E0662ED4206200873CD3 /* DesignSystem */,
+				4284E0672ED4206200873CD3 /* MyBestAITasksCore */,
+				4284E0682ED4216B00873CD3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,10 +104,9 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		42FF539E2ED184E0001FC0E6 /* Frameworks */ = {
+		4284E0682ED4216B00873CD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				42FF539F2ED184E0001FC0E6 /* DesignSystem */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -129,8 +131,8 @@
 			);
 			name = mybest_tasks;
 			packageProductDependencies = (
-				426032792ED311B400D227CC /* Dependencies */,
-				4260327B2ED311B400D227CC /* DependenciesMacros */,
+				4284E0692ED4216B00873CD3 /* DesignSystem */,
+				4284E06B2ED4216B00873CD3 /* MyBestAITasksCore */,
 			);
 			productName = mybest_tasks;
 			productReference = 42792A372ED0A97700EFF900 /* mybest_tasks.app */;
@@ -215,7 +217,6 @@
 			mainGroup = 42792A2E2ED0A97700EFF900;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				426032782ED3112F00D227CC /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 42792A382ED0A97700EFF900 /* Products */;
@@ -624,27 +625,14 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		426032782ED3112F00D227CC /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
-			requirement = {
-				kind = exactVersion;
-				version = 1.3.9;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		426032792ED311B400D227CC /* Dependencies */ = {
+		4284E0692ED4216B00873CD3 /* DesignSystem */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 426032782ED3112F00D227CC /* XCRemoteSwiftPackageReference "swift-dependencies" */;
-			productName = Dependencies;
+			productName = DesignSystem;
 		};
-		4260327B2ED311B400D227CC /* DependenciesMacros */ = {
+		4284E06B2ED4216B00873CD3 /* MyBestAITasksCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 426032782ED3112F00D227CC /* XCRemoteSwiftPackageReference "swift-dependencies" */;
-			productName = DependenciesMacros;
+			productName = MyBestAITasksCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

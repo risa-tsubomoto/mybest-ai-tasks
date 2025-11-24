@@ -1,4 +1,6 @@
 import SwiftUI
+import MyBestAITasksCore
+import DesignSystem
 
 /// 目標の進捗を表示するカードコンポーネント。
 struct ProgressCard: View {

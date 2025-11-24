@@ -1,4 +1,6 @@
 import SwiftUI
+import MyBestAITasksCore
+import DesignSystem
 
 struct GoalInputView: View {
     @StateObject var viewModel: GoalInputViewModel

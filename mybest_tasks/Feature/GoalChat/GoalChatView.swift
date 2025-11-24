@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import MyBestAITasksCore
 
 struct ChatMessage: Identifiable {
     let id = UUID()

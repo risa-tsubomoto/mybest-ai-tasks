@@ -1,4 +1,6 @@
 import SwiftUI
+import MyBestAITasksCore
+import DesignSystem
 
 struct TaskRowView: View {
     let task: GoalTask

@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import MyBestAITasksCore
 
 /// ViewModel for the goal creation view.
 ///

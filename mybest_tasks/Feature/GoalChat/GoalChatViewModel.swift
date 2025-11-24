@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import MyBestAITasksCore
 
 @MainActor
 class GoalChatViewModel: ObservableObject {

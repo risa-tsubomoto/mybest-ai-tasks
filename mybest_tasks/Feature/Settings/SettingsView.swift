@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 
 /// アプリの設定画面。
 struct SettingsView: View {
